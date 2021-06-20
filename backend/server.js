@@ -12,7 +12,7 @@ dotenv.config();
 const PORT = process.env.PORT | 8080;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-//Connection to Mongo Database
+//Connecting to Mongo Database
 mongoose.connect(
   MONGODB_URI,
   {
