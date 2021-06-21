@@ -66,11 +66,14 @@ router.post("/login", async (req, res) => {
 
 //Update User route
 router.put("/:id", async (req, res) => {
+  //Check if ID from request parameters match one from request body
   const validateUser = req.body.userId === req.params.id ? true : false;
 
+  //If ID's match then update User
   if (validateUser) {
     const userId = req.params.id;
 
+    //If data that is sent in body contains password then generate new password using bcrypt
     if (req.body.password) {
       const newPassword = req.body.password;
 
@@ -87,12 +90,12 @@ router.put("/:id", async (req, res) => {
     }
 
     try {
+      //Update User with data from body - User data
       const user = await User.findByIdAndUpdate(userId, {
         $set: req.body,
       });
 
-      console.log("USER UPDATE: " + user);
-
+      //If User is null then User with specified ID is Not Found
       if (user == null) {
         return res.status(404).json("User with ID " + userId + " Not Found!");
       }
@@ -112,14 +115,17 @@ router.put("/:id", async (req, res) => {
 
 //Delete User route
 router.delete("/:id", async (req, res) => {
+  //Check if ID from request parameters match one from request body
   const validateUser = req.body.userId === req.params.id ? true : false;
 
+  //If ID's match then delete User
   if (validateUser) {
     const userId = req.params.id;
 
     try {
       const user = await User.findByIdAndDelete(userId);
 
+      //If User is null then User with specified ID is Not Found
       if (user == null) {
         return res.status(404).json("User with ID " + userId + " Not Found!");
       }
@@ -144,10 +150,12 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(userId);
 
+    //If User is null then User with specified ID is Not Found
     if (user == null) {
       return res.status(404).json("User with ID " + userId + " Not Found!");
     }
 
+    //Remove data from User object - send only neccessary parts of object
     const { updatedAt, createdAt, password, __v, ...userData } = user._doc;
 
     return res.status(200).json(userData);
@@ -160,9 +168,11 @@ router.get("/:id", async (req, res) => {
 
 //Follow User route
 router.put("/follow/:id", async (req, res) => {
+  //Check if ID from request parameters doesn't match one from request body - User cannot follow yourself
   const validateFollowRequest =
     req.body.userId !== req.params.id ? true : false;
 
+  //If ID's doesn't match then update Users - update Users lists (followers, following)
   if (validateFollowRequest) {
     const userToFollowId = req.params.id;
     const userId = req.body.userId;
@@ -171,6 +181,7 @@ router.put("/follow/:id", async (req, res) => {
       const userToFollow = await User.findById(userToFollowId);
       const user = await User.findById(userId);
 
+      //If User already follows that User then send error response
       if (!userToFollow.followers.includes(userId)) {
         await userToFollow.updateOne({ $push: { followers: userId } });
         await user.updateOne({ $push: { following: userToFollowId } });
@@ -202,9 +213,11 @@ router.put("/follow/:id", async (req, res) => {
 
 //Unfollow User route
 router.put("/unfollow/:id", async (req, res) => {
+  //Check if ID from request parameters doesn't match one from request body - User cannot unfollow yourself
   const validateUnfollowRequest =
     req.body.userId !== req.params.id ? true : false;
 
+  //If ID's doesn't match then update Users - update Users lists (followers, following)
   if (validateUnfollowRequest) {
     const userToUnfollowId = req.params.id;
     const userId = req.body.userId;
@@ -213,6 +226,7 @@ router.put("/unfollow/:id", async (req, res) => {
       const userToUnfollow = await User.findById(userToUnfollowId);
       const user = await User.findById(userId);
 
+      //If User doesn't follows that User then send error response
       if (userToUnfollow.followers.includes(userId)) {
         await userToUnfollow.updateOne({ $pull: { followers: userId } });
         await user.updateOne({ $pull: { following: userToUnfollowId } });

@@ -36,11 +36,13 @@ const UserSchema = new mongoose.Schema(
     followers: {
       type: Array,
       default: [],
+      ref: "User",
     },
 
     following: {
       type: Array,
       default: [],
+      ref: "User",
     },
 
     isAdmin: {
