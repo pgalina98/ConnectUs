@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     console.log("LOG [/users/register]: " + error);
     //Send response to client side
-    return res.status(500).json(error);
+    return res.status(500).json(error.message);
   }
 });
 
@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log("LOG [/users/login]: " + error);
     //Send response to client side
-    return res.status(500).json(error);
+    return res.status(500).json(error.message);
   }
 });
 
@@ -85,7 +85,7 @@ router.put("/:id", async (req, res) => {
       } catch (error) {
         console.log("LOG [/users/:id] - UPDATE: " + error);
         //Send response to client side
-        return res.status(500).json(error);
+        return res.status(500).json(error.message);
       }
     }
 
@@ -95,7 +95,7 @@ router.put("/:id", async (req, res) => {
         $set: req.body,
       });
 
-      //If User is null then User with specified ID is Not Found
+      //If user is null then User with specified ID is Not Found
       if (user == null) {
         return res.status(404).json("User with ID " + userId + " Not Found!");
       }
@@ -106,7 +106,7 @@ router.put("/:id", async (req, res) => {
     } catch (error) {
       console.log("LOG [/users/:id]: " + error);
       //Send response to client side
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   } else {
     return res.status(403).json("User can update only his personal account!");
@@ -125,7 +125,7 @@ router.delete("/:id", async (req, res) => {
     try {
       const user = await User.findByIdAndDelete(userId);
 
-      //If User is null then User with specified ID is Not Found
+      //If user is null then User with specified ID is Not Found
       if (user == null) {
         return res.status(404).json("User with ID " + userId + " Not Found!");
       }
@@ -136,7 +136,7 @@ router.delete("/:id", async (req, res) => {
     } catch (error) {
       console.log("LOG [/users/:id] - DELETE: " + error);
       //Send response to client side
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   } else {
     return res.status(403).json("User can delete only his personal account!");
@@ -150,7 +150,7 @@ router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(userId);
 
-    //If User is null then User with specified ID is Not Found
+    //If user is null then User with specified ID is Not Found
     if (user == null) {
       return res.status(404).json("User with ID " + userId + " Not Found!");
     }
@@ -162,7 +162,7 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     console.log("LOG [/users/:id] - GET SINGLE: " + error);
     //Send response to client side
-    return res.status(500).json(error);
+    return res.status(500).json(error.message);
   }
 });
 
@@ -204,7 +204,7 @@ router.put("/follow/:id", async (req, res) => {
     } catch (error) {
       console.log("LOG [/users/follow/:id]: " + error);
       //Send response to client side
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   } else {
     return res.status(403).json("You cannot start following yourself!");
@@ -249,7 +249,7 @@ router.put("/unfollow/:id", async (req, res) => {
     } catch (error) {
       console.log("LOG [/users/unfollow/:id]: " + error);
       //Send response to client side
-      return res.status(500).json(error);
+      return res.status(500).json(error.message);
     }
   } else {
     return res.status(403).json("You cannot unfollow yourself!");
