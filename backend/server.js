@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+
 const userRouter = require("./routes/users");
+const postRouter = require("./routes/posts");
 
 dotenv.config();
 
@@ -32,6 +34,7 @@ app.use(morgan("common"));
 
 //Routes
 app.use("/api/users", userRouter);
+app.use("/api/posts", postRouter);
 
 //Server configuration
 app.listen(PORT, () => {
