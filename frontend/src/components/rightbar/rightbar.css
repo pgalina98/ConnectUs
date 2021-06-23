@@ -40,3 +40,53 @@
   margin: 0;
   list-style: none;
 }
+
+.profileRightbarTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.profileRightbarUserInfo {
+  margin-bottom: 30px;
+}
+
+.profileRightbarUserInfoItem {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.profileRightbarUserInfoKey {
+  font-weight: 500;
+  margin-right: 15px;
+}
+
+.profileRightbarUserInfoValue {
+  font-weight: 300;
+}
+
+.profileRightbarFriends {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.profileRightbarFriendItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.profileRightbarFriendItemImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+
+.profileRightbarFriendItemUsername {
+  font-weight: 400;
+  margin-top: 7px;
+}

@@ -3,10 +3,10 @@ import "./rightbar.css";
 import { Users } from "../../DummyData";
 import OnlineUser from "../onlineUser/OnlineUser";
 
-export default function Rightbar() {
-  return (
-    <div className="rightbar">
-      <div className="rightbarWrapper">
+export default function Rightbar({ profile }) {
+  const HomepageRightbar = () => {
+    return (
+      <>
         <div className="rightbarBirthdaysContainer">
           <img
             src="/assets/birthday_gift.png"
@@ -24,6 +24,95 @@ export default function Rightbar() {
             <OnlineUser key={user.id} user={user} />
           ))}
         </ul>
+      </>
+    );
+  };
+
+  const ProfileRightbar = () => {
+    return (
+      <>
+        <h4 className="profileRightbarTitle">User Information</h4>
+        <div className="profileRightbarUserInfo">
+          <div className="profileRightbarUserInfoItem">
+            <span className="profileRightbarUserInfoKey">City:</span>
+            <span className="profileRightbarUserInfoValue">Chicago</span>
+          </div>
+          <div className="profileRightbarUserInfoItem">
+            <span className="profileRightbarUserInfoKey">From:</span>
+            <span className="profileRightbarUserInfoValue">Tucson</span>
+          </div>
+          <div className="profileRightbarUserInfoItem">
+            <span className="profileRightbarUserInfoKey">Relationship:</span>
+            <span className="profileRightbarUserInfoValue">Single</span>
+          </div>
+        </div>
+        <h4 className="profileRightbarTitle">User Friends</h4>
+        <div className="profileRightbarFriends">
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_3.jpg"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">
+              Jasmine Doe
+            </span>
+          </div>
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_4.png"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">
+              Ana-Marie Doe
+            </span>
+          </div>
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_5.jpg"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">John Doe</span>
+          </div>
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_3.jpg"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">
+              Jasmine Doe
+            </span>
+          </div>
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_4.png"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">
+              Ana-Marie Doe
+            </span>
+          </div>
+          <div className="profileRightbarFriendItem">
+            <img
+              src="/assets/profile_pictures/profile_picture_5.jpg"
+              alt=""
+              className="profileRightbarFriendItemImage"
+            />
+            <span className="profileRightbarFriendItemUsername">John Doe</span>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="rightbar">
+      <div className="rightbarWrapper">
+        {profile ? <ProfileRightbar /> : <HomepageRightbar />}
       </div>
     </div>
   );

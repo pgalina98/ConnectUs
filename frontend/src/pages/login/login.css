@@ -1,0 +1,77 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginWrapper {
+  width: 70%;
+  height: 70%;
+  display: flex;
+}
+
+.loginWrapperLeft,
+.loginWrapperRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.loginWrapperLeftLogo {
+  font-size: 50px;
+  font-weight: 500;
+  color: #1775ee;
+  margin-bottom: 10px;
+}
+
+.loginWrapperLeftDescription {
+  font-size: 22px;
+}
+
+.loginWrapperRightContainer {
+  height: 350px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.loginWrapperRightContainerRememberPassword {
+  align-self: center;
+}
+
+.loginWrapperRightContainerLoginButton {
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  background-color: #1775ee;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.loginWrapperRightContainerForgotPassword {
+  text-align: center;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.loginWrapperRightContainerRegisterButton {
+  width: 50%;
+  align-self: center;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  background-color: #42b72a;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
