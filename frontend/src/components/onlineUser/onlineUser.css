@@ -34,8 +34,7 @@
 
 .rightbarMessageOnlineFriend {
   font-size: 28px !important;
-  margin-left: 10px;
   cursor: pointer;
   position: absolute;
-  right: 230px;
+  margin-left: 200px;
 }
