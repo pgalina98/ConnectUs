@@ -34,7 +34,7 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
+    <div className="loginContainer">
       <div className="loginWrapper">
         <div className="loginWrapperLeft">
           <h3 className="loginWrapperLeftLogo">Connect Us</h3>

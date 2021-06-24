@@ -47,7 +47,7 @@ export default function Register() {
   };
 
   return (
-    <div className="container">
+    <div className="registerContainer">
       <div className="registerWrapper">
         <div className="registerWrapperLeft">
           <h3 className="registerWrapperLeftLogo">Connect Us</h3>
