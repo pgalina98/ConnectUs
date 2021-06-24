@@ -20,9 +20,9 @@ router.post("/", async (req, res) => {
 });
 
 //Get all Post route - all posts from Users that logged User is following
-router.get("/timeline", async (req, res) => {
+router.get("/timeline/:userId", async (req, res) => {
   const timelinePosts = [];
-  const userId = req.body.userId;
+  const userId = req.params.userId;
 
   try {
     //Try to find User with specified ID
