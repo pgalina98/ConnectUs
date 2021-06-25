@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import api from "../../utils/api";
 import "./post.css";
 import { MoreVert } from "@material-ui/icons";
-import { Users } from "../../DummyData";
+import { format } from "timeago.js";
 
 export default function Post({ post }) {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
 
-  const [likes, setLikes] = useState(post.like);
+  const [user, setUser] = useState({});
+  const [likes, setLikes] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
 
-  const user = Users.find((user) => user.id === post.userId);
+  useEffect(() => {
+    const getUserById = async () => {
+      const userId = post.userId;
+      await api
+        .get("/users/" + userId)
+        .then(({ data }) => setUser(data))
+        .catch((error) => console.log("LOG [ERROR]: " + error));
+    };
+
+    getUserById();
+  }, [post.userId]);
 
   const likeButtonHandler = () => {
     setLikes(isLiked ? likes - 1 : likes + 1);
@@ -22,21 +34,26 @@ export default function Post({ post }) {
         <div className="postTop">
           <div className="postTopLeft">
             <img
-              src={ASSETS_FOLDER_URI + user.profilePicture}
+              src={
+                user.profilePicture
+                  ? ASSETS_FOLDER_URI + user.profilePicture
+                  : ASSETS_FOLDER_URI +
+                    "profile_pictures/profile_picture_default.jpg"
+              }
               alt=""
               className="postTopLeftProfilePicture"
             />
             <span className="postTopLeftUsername">{user.username}</span>
-            <span className="postTopLeftTimeAgo">{post.date}</span>
+            <span className="postTopLeftTimeAgo">{format(post.createdAt)}</span>
           </div>
           <div className="postLeftRight">
             <MoreVert />
           </div>
         </div>
         <div className="postCenter">
-          <span className="postCenterText">{post?.desc}</span>
+          <span className="postCenterText">{post?.description}</span>
           <img
-            src={ASSETS_FOLDER_URI + post.photo}
+            src={ASSETS_FOLDER_URI + post?.image}
             alt=""
             className="postCenterImage"
           />
@@ -61,7 +78,8 @@ export default function Post({ post }) {
           </div>
           <div className="postBottomRight">
             <span className="postBottomRightComments">
-              {post.comment} comments
+              {/* TODO -> Post model need to be updated - ADD comments property to model */}
+              0 comments
             </span>
           </div>
         </div>

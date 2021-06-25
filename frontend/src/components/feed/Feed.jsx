@@ -8,19 +8,24 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    api
-      .get("/posts/timeline/60cf759612e2ca311475ba4f")
-      .then((data) => console.log("DATA: " + data))
-      .catch((error) => console.log("LOG [ERROR]: " + error));
-  }, [posts]);
+    const getTimelinePosts = async () => {
+      //TODO -> User ID must be fetched dynamically from Context
+      await api
+        .get("/posts/timeline/60cf759612e2ca311475ba4f")
+        .then(({ data }) => setPosts(data))
+        .catch((error) => console.log("LOG [ERROR]: " + error));
+    };
+
+    getTimelinePosts();
+  }, []);
 
   return (
     <div className="feed">
       <div className="feedWrapper">
         <NewPost />
-        {/* {Posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))} */}
+        {posts.map((post) => (
+          <Post key={post._id} post={post} />
+        ))}
       </div>
     </div>
   );
