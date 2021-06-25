@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
@@ -28,6 +29,7 @@ mongoose.connect(
 );
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
