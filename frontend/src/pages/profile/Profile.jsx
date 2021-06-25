@@ -6,6 +6,8 @@ import Topbar from "../../components/topbar/Topbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 
 export default function Profile() {
+  const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+
   return (
     <>
       <Topbar />
@@ -15,12 +17,14 @@ export default function Profile() {
           <div className="containerRightTop">
             <div className="containerRightTopPictures">
               <img
-                src="assets/post_pictures/post_picture_2.jpg"
+                src={ASSETS_FOLDER_URI + "post_pictures/post_picture_2.jpg"}
                 alt=""
                 className="containerRightTopCoverPicture"
               />
               <img
-                src="assets/profile_pictures/profile_picture_1.jpg"
+                src={
+                  ASSETS_FOLDER_URI + "profile_pictures/profile_picture_1.jpg"
+                }
                 alt=""
                 className="containerRightTopProfilePicture"
               />

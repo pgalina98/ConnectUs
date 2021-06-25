@@ -4,6 +4,7 @@ import Feed from "../../components/feed/Feed";
 import Leftbar from "../../components/leftbar/Leftbar";
 import Topbar from "../../components/topbar/Topbar";
 import Rightbar from "../../components/rightbar/Rightbar";
+import api from "../../utils/api";
 
 export default function Homepage() {
   return (

@@ -4,6 +4,8 @@ import { MoreVert } from "@material-ui/icons";
 import { Users } from "../../DummyData";
 
 export default function Post({ post }) {
+  const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+
   const [likes, setLikes] = useState(post.like);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -20,7 +22,7 @@ export default function Post({ post }) {
         <div className="postTop">
           <div className="postTopLeft">
             <img
-              src={user.profilePicture}
+              src={ASSETS_FOLDER_URI + user.profilePicture}
               alt=""
               className="postTopLeftProfilePicture"
             />
@@ -33,7 +35,11 @@ export default function Post({ post }) {
         </div>
         <div className="postCenter">
           <span className="postCenterText">{post?.desc}</span>
-          <img src={post.photo} alt="" className="postCenterImage" />
+          <img
+            src={ASSETS_FOLDER_URI + post.photo}
+            alt=""
+            className="postCenterImage"
+          />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">

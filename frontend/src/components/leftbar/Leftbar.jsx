@@ -14,6 +14,8 @@ import {
 import { Users } from "../../DummyData";
 
 export default function Leftbar() {
+  const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+
   return (
     <div className="leftbar">
       <div className="leftbarWrapper">
@@ -61,7 +63,7 @@ export default function Leftbar() {
           {Users.map((user) => (
             <li key={user.id} className="leftbarFriendListItem">
               <img
-                src={user.profilePicture}
+                src={ASSETS_FOLDER_URI + user.profilePicture}
                 alt=""
                 className="leftbarFriendProfilePicture"
               />

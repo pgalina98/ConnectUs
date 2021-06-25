@@ -3,11 +3,13 @@ import "./onlineUser.css";
 import { Telegram } from "@material-ui/icons";
 
 export default function OnlineUser({ user }) {
+  const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+
   return (
     <li className="rightbarOnlineFriendsListItem">
       <div className="rightbarOnlineFriendsProfileImageContainer">
         <img
-          src={user.profilePicture}
+          src={ASSETS_FOLDER_URI + user.profilePicture}
           alt=""
           className="rightbarOnlineFriendsProfileImage"
         />
