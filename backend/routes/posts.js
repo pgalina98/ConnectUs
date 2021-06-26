@@ -51,6 +51,30 @@ router.get("/timeline/:userId", async (req, res) => {
   }
 });
 
+//Get all User Post route
+router.get("/profile/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    //Try to find User with specified ID
+    const user = await User.findById(userId);
+
+    //If user is null then User with specified ID is Not Found
+    if (user == null) {
+      return res.status(404).json("User with ID " + userId + " Not Found!");
+    }
+
+    //Get all posts from logged User
+    const userPosts = await Post.find({ userId });
+
+    return res.status(200).json(userPosts);
+  } catch (error) {
+    console.log("LOG [/posts/following]: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
 //Get single Post route
 router.get("/:id", async (req, res) => {
   const postId = req.params.id;

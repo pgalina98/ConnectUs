@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import api from "../../utils/api";
-import "./post.css";
+import { Link } from "react-router-dom";
 import { MoreVert } from "@material-ui/icons";
 import { format } from "timeago.js";
+import api from "../../utils/api";
+import "./post.css";
 
 export default function Post({ post }) {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
@@ -33,16 +34,19 @@ export default function Post({ post }) {
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <img
-              src={
-                user.profilePicture
-                  ? ASSETS_FOLDER_URI + user.profilePicture
-                  : ASSETS_FOLDER_URI +
-                    "profile_pictures/profile_picture_default.jpg"
-              }
-              alt=""
-              className="postTopLeftProfilePicture"
-            />
+            {/* TODO -> Fetch current user ID from context */}
+            <Link to={"/profile/" + post.userId}>
+              <img
+                src={
+                  user.profilePicture
+                    ? ASSETS_FOLDER_URI + user.profilePicture
+                    : ASSETS_FOLDER_URI +
+                      "profile_pictures/profile_picture_default.jpg"
+                }
+                alt=""
+                className="postTopLeftProfilePicture"
+              />
+            </Link>
             <span className="postTopLeftUsername">{user.username}</span>
             <span className="postTopLeftTimeAgo">{format(post.createdAt)}</span>
           </div>

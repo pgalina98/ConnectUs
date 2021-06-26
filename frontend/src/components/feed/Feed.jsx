@@ -4,20 +4,25 @@ import NewPost from "../newPost/NewPost";
 import Post from "../post/Post";
 import "./feed.css";
 
-export default function Feed() {
+export default function Feed({ userId }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const getTimelinePosts = async () => {
       //TODO -> User ID must be fetched dynamically from Context
-      await api
-        .get("/posts/timeline/60cf759612e2ca311475ba4f")
-        .then(({ data }) => setPosts(data))
-        .catch((error) => console.log("LOG [ERROR]: " + error));
+      userId
+        ? await api
+            .get("/posts/profile/" + userId)
+            .then(({ data }) => setPosts(data))
+            .catch((error) => console.log("LOG [ERROR]: " + error))
+        : await api
+            .get("/posts/timeline/60cf759612e2ca311475ba4f")
+            .then(({ data }) => setPosts(data))
+            .catch((error) => console.log("LOG [ERROR]: " + error));
     };
 
     getTimelinePosts();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="feed">

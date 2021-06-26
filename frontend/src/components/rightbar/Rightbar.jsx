@@ -3,7 +3,7 @@ import "./rightbar.css";
 import { Users } from "../../DummyData";
 import OnlineUser from "../onlineUser/OnlineUser";
 
-export default function Rightbar({ profile }) {
+export default function Rightbar({ user }) {
   const HomepageRightbar = () => {
     return (
       <>
@@ -35,15 +35,21 @@ export default function Rightbar({ profile }) {
         <div className="profileRightbarUserInfo">
           <div className="profileRightbarUserInfoItem">
             <span className="profileRightbarUserInfoKey">City:</span>
-            <span className="profileRightbarUserInfoValue">Chicago</span>
+            <span className="profileRightbarUserInfoValue">{user.city}</span>
           </div>
           <div className="profileRightbarUserInfoItem">
             <span className="profileRightbarUserInfoKey">From:</span>
-            <span className="profileRightbarUserInfoValue">Tucson</span>
+            <span className="profileRightbarUserInfoValue">{user.from}</span>
           </div>
           <div className="profileRightbarUserInfoItem">
             <span className="profileRightbarUserInfoKey">Relationship:</span>
-            <span className="profileRightbarUserInfoValue">Single</span>
+            <span className="profileRightbarUserInfoValue">
+              {user.relationship === 1
+                ? "Single"
+                : user.relationship === 2
+                ? "Married"
+                : "Complicated"}
+            </span>
           </div>
         </div>
         <h4 className="profileRightbarTitle">User Friends</h4>
@@ -112,7 +118,7 @@ export default function Rightbar({ profile }) {
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">
-        {profile ? <ProfileRightbar /> : <HomepageRightbar />}
+        {user ? <ProfileRightbar /> : <HomepageRightbar />}
       </div>
     </div>
   );
