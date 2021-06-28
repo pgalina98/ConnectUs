@@ -33,13 +33,36 @@
 }
 
 .loginWrapperRightContainer {
-  height: 350px;
+  height: 425px;
   padding: 20px;
   background-color: #fff;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.loginWrapperRightContainerErrorMessage {
+  display: flex;
+  color: #ff3333;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.loginWrapperRightContainerCorrectMessage {
+  display: flex;
+  color: #1c8b1c;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.loginWrapperRightContainerErrorMessage > p,
+.loginWrapperRightContainerCorrectMessage > p {
+  margin-left: 10px;
+}
+
+.loginWrapperRightContainerAddMarginToMessage {
+  margin-top: 10px !important;
 }
 
 .loginWrapperRightContainerRememberPassword {
