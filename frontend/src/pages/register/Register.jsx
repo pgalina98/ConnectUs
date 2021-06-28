@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./register.css";
+import { Link } from "react-router-dom";
 import {
   TextField,
   FormControl,
@@ -8,29 +9,38 @@ import {
   InputAdornment,
   IconButton,
 } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import {
+  Visibility,
+  VisibilityOff,
+  CheckCircleOutlineOutlined,
+  ErrorOutlineOutlined,
+} from "@material-ui/icons";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 export default function Register() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState({
-    value: "",
-    showPassword: false,
-  });
-  const [reenteredPassword, setReenteredPassword] = useState({
-    value: "",
-    showPassword: false,
+  const [showPassword, setShowPassword] = useState(false);
+  const [showReenteredPassword, setShowReenteredPassword] = useState(false);
+
+  const {
+    register,
+    getValues,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: "onChange",
   });
 
+  //Watch changes on password input field
+  const password = watch("password", "");
+
   const handleClickShowPassword = () => {
-    setPassword({ ...password, showPassword: !password.showPassword });
+    setShowPassword(!showPassword);
   };
 
   const handleClickShowReenteredPassword = () => {
-    setReenteredPassword({
-      ...reenteredPassword,
-      showPassword: !reenteredPassword.showPassword,
-    });
+    setShowReenteredPassword(!showReenteredPassword);
   };
 
   const handleMouseDownReenteredPassword = (event) => {
@@ -41,9 +51,9 @@ export default function Register() {
     event.preventDefault();
   };
 
-  const handleRegisterSubmit = () => {
+  const handleRegisterSubmit = (data) => {
     //TODO -> Register New user - send Axios request to API
-    console.log("Username submit:" + username);
+    console.log("Username submit:" + data.username);
   };
 
   return (
@@ -56,28 +66,92 @@ export default function Register() {
           </span>
         </div>
         <div className="registerWrapperRight">
-          <div className="registerWrapperRightContainer">
+          <form
+            className="registerWrapperRightContainer"
+            onSubmit={handleSubmit(handleRegisterSubmit)}
+          >
             <TextField
               id="username"
               label="Enter your username"
               variant="outlined"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
+              {...register("username", {
+                required: { value: true, message: "Username is required" },
+                minLength: {
+                  value: 3,
+                  message: "Username must contains at least 3 characters.",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Username can contains max 50 characters.",
+                },
+              })}
             />
+            {errors.username ? (
+              <ErrorMessage
+                name="username"
+                errors={errors}
+                render={({ message }) => (
+                  <div className="registerWrapperRightContainerErrorMessage">
+                    <ErrorOutlineOutlined />
+                    <p>{message}</p>
+                  </div>
+                )}
+              />
+            ) : (
+              getValues("username") && (
+                <div className="registerWrapperRightContainerCorrectMessage">
+                  <CheckCircleOutlineOutlined />
+                  <p>Correct.</p>
+                </div>
+              )
+            )}
             <TextField
               id="email"
               label="Enter your e-mail"
               variant="outlined"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              {...register("email", {
+                required: { value: true, message: "Email is required" },
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "E-mail address format is invalid.",
+                },
+                maxLength: {
+                  value: 50,
+                  message: "E-mail address can contains max 50 characters.",
+                },
+              })}
             />
+            {errors.email ? (
+              <ErrorMessage
+                name="email"
+                errors={errors}
+                render={({ message }) => (
+                  <div className="registerWrapperRightContainerErrorMessage">
+                    <ErrorOutlineOutlined />
+                    <p>{message}</p>
+                  </div>
+                )}
+              />
+            ) : (
+              getValues("email") && (
+                <div className="registerWrapperRightContainerCorrectMessage">
+                  <CheckCircleOutlineOutlined />
+                  <p>Correct.</p>
+                </div>
+              )
+            )}
             <FormControl variant="outlined">
               <InputLabel htmlFor="password">Enter your password</InputLabel>
               <OutlinedInput
                 id="password"
-                type={password.showPassword ? "text" : "password"}
-                value={password.value}
-                onChange={(event) => setPassword({ value: event.target.value })}
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: { value: true, message: "Password is required" },
+                  minLength: {
+                    value: 6,
+                    message: "Password must contains at least 6 characters.",
+                  },
+                })}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -86,16 +160,37 @@ export default function Register() {
                       onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
-                      {password.showPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 }
                 labelWidth={150}
               />
+              {errors.password ? (
+                <ErrorMessage
+                  name="password"
+                  errors={errors}
+                  render={({ message }) => (
+                    <div
+                      className="loginWrapperRightContainerErrorMessage 
+                                 loginWrapperRightContainerAddMarginToMessage"
+                    >
+                      <ErrorOutlineOutlined />
+                      <p>{message}</p>
+                    </div>
+                  )}
+                />
+              ) : (
+                getValues("password") && (
+                  <div
+                    className="loginWrapperRightContainerCorrectMessage 
+                               loginWrapperRightContainerAddMarginToMessage"
+                  >
+                    <CheckCircleOutlineOutlined />
+                    <p>Correct.</p>
+                  </div>
+                )
+              )}
             </FormControl>
             <FormControl variant="outlined">
               <InputLabel htmlFor="reenteredPassword">
@@ -103,11 +198,23 @@ export default function Register() {
               </InputLabel>
               <OutlinedInput
                 id="reenteredPassword"
-                type={reenteredPassword.showPassword ? "text" : "password"}
-                value={reenteredPassword.value}
-                onChange={(event) =>
-                  setReenteredPassword({ value: event.target.value })
-                }
+                type={showReenteredPassword ? "text" : "password"}
+                {...register("reenteredPassword", {
+                  required: {
+                    value: true,
+                    message: "Re-entered password is required",
+                  },
+                  minLength: {
+                    value: 6,
+                    message:
+                      "Re-entered password must contains at least 6 characters.",
+                  },
+                  validate: {
+                    value: (value) =>
+                      value === password ||
+                      "Re-entered password doesn't match.",
+                  },
+                })}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -116,7 +223,7 @@ export default function Register() {
                       onMouseDown={handleMouseDownReenteredPassword}
                       edge="end"
                     >
-                      {reenteredPassword.showPassword ? (
+                      {showReenteredPassword ? (
                         <Visibility />
                       ) : (
                         <VisibilityOff />
@@ -126,17 +233,45 @@ export default function Register() {
                 }
                 labelWidth={170}
               />
+              {errors.reenteredPassword ? (
+                <ErrorMessage
+                  name="reenteredPassword"
+                  errors={errors}
+                  render={({ message }) => (
+                    <div
+                      className="loginWrapperRightContainerErrorMessage 
+                                 loginWrapperRightContainerAddMarginToMessage"
+                    >
+                      <ErrorOutlineOutlined />
+                      <p>{message}</p>
+                    </div>
+                  )}
+                />
+              ) : (
+                getValues("reenteredPassword") && (
+                  <div
+                    className="loginWrapperRightContainerCorrectMessage 
+                               loginWrapperRightContainerAddMarginToMessage"
+                  >
+                    <CheckCircleOutlineOutlined />
+                    <p>Correct.</p>
+                  </div>
+                )
+              )}
             </FormControl>
-            <button
+            <input
+              type="submit"
+              value="Sign Up"
               className="registerWrapperRightContainerRegisterButton"
-              onClick={handleRegisterSubmit}
+            />
+
+            <Link
+              className="registerWrapperRightContainerLoginButton"
+              to="/login"
             >
-              Sign Up
-            </button>
-            <button className="registerWrapperRightContainerLoginButton">
-              Already have an Account
-            </button>
-          </div>
+              Link have an Account
+            </Link>
+          </form>
         </div>
       </div>
     </div>

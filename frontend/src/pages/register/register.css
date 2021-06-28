@@ -33,13 +33,36 @@
 }
 
 .registerWrapperRightContainer {
-  height: 425px;
+  height: 575px;
   padding: 20px;
   background-color: #fff;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.registerWrapperRightContainerErrorMessage {
+  display: flex;
+  color: #ff3333;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.registerWrapperRightContainerCorrectMessage {
+  display: flex;
+  color: #1c8b1c;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.registerWrapperRightContainerErrorMessage > p,
+.registerWrapperRightContainerCorrectMessage > p {
+  margin-left: 10px;
+}
+
+.registerWrapperRightContainerAddMarginToMessage {
+  margin-top: 10px !important;
 }
 
 .registerWrapperRightContainerRegisterButton {
@@ -55,6 +78,9 @@
 
 .registerWrapperRightContainerLoginButton {
   width: 50%;
+  text-decoration: none;
+  text-align: center;
+  line-height: 50px;
   align-self: center;
   height: 50px;
   border-radius: 15px;
