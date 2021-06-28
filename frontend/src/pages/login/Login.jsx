@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./login.css";
+import { Link } from "react-router-dom";
 import {
   Checkbox,
   FormControlLabel,
@@ -160,9 +161,12 @@ export default function Login() {
             <span className="loginWrapperRightContainerForgotPassword">
               Forgot Password?
             </span>
-            <button className="loginWrapperRightContainerRegisterButton">
+            <Link
+              className="loginWrapperRightContainerRegisterButton"
+              to="/register"
+            >
               Create a New Account
-            </button>
+            </Link>
           </form>
         </div>
       </div>

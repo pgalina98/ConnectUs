@@ -269,7 +269,7 @@ export default function Register() {
               className="registerWrapperRightContainerLoginButton"
               to="/login"
             >
-              Link have an Account
+              Already have an Account
             </Link>
           </form>
         </div>

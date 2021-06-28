@@ -88,6 +88,9 @@
 
 .loginWrapperRightContainerRegisterButton {
   width: 50%;
+  text-decoration: none;
+  text-align: center;
+  line-height: 50px;
   align-self: center;
   height: 50px;
   border-radius: 15px;
