@@ -24,7 +24,7 @@ export default function Feed({ userId }) {
     };
 
     getTimelinePosts();
-  }, [userId]);
+  }, [user._id, userId]);
 
   return (
     <div className="feed">

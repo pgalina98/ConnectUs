@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MoreVert } from "@material-ui/icons";
 import { format } from "timeago.js";
 import api from "../../utils/api";
 import "./post.css";
+import { AuthContext } from "../../context/AuthorizationContext";
 
 export default function Post({ post }) {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+  const { user: loggedUser } = useContext(AuthContext);
 
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    setIsLiked(post.likes.includes(loggedUser._id));
+  }, [loggedUser._id, post.likes]);
 
   useEffect(() => {
     const getUserById = async () => {
@@ -24,9 +30,14 @@ export default function Post({ post }) {
     getUserById();
   }, [post.userId]);
 
-  const likeButtonHandler = () => {
+  const likeButtonHandler = async () => {
     setLikes(isLiked ? likes - 1 : likes + 1);
     setIsLiked(isLiked ? false : true);
+
+    await api
+      .put("/posts/like/" + post._id, { userId: loggedUser._id })
+      .then(({ data }) => console.log(data))
+      .catch((error) => console.log(error));
   };
 
   return (
