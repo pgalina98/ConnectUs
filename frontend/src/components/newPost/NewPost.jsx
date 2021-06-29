@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./newPost.css";
 import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
+import { AuthContext } from "../../context/AuthorizationContext";
 
 export default function NewPost() {
+  const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="newPostContainer">
       <div className="newPostWrapper">
         <div className="newPostTop">
           <img
-            src="/assets/profile_pictures/profile_picture_1.jpg"
+            src={
+              user.profilePicture
+                ? ASSETS_FOLDER_URI + user.profilePicture
+                : ASSETS_FOLDER_URI +
+                  "profile_pictures/profile_picture_default.jpg"
+            }
             alt=""
             className="newPostProfileImage"
           />

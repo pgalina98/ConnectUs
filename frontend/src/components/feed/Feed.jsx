@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import api from "../../utils/api";
 import NewPost from "../newPost/NewPost";
 import Post from "../post/Post";
 import "./feed.css";
+import { AuthContext } from "../../context/AuthorizationContext";
 
 export default function Feed({ userId }) {
+  const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function Feed({ userId }) {
             .then(({ data }) => setPosts(data))
             .catch((error) => console.log("LOG [ERROR]: " + error))
         : await api
-            .get("/posts/timeline/60cf759612e2ca311475ba4f")
+            .get("/posts/timeline/" + user._id)
             .then(({ data }) => setPosts(data))
             .catch((error) => console.log("LOG [ERROR]: " + error));
     };

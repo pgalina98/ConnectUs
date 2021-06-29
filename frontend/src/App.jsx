@@ -13,7 +13,6 @@ import Register from "./pages/register/Register";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log("APP USER: " + user);
 
   return (
     <div>
