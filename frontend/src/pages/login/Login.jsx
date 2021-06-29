@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./login.css";
 import { Link } from "react-router-dom";
 import {
@@ -10,6 +10,7 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   Visibility,
@@ -19,6 +20,8 @@ import {
 } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import api from "../../utils/api";
+import { AuthContext } from "../../context/AuthorizationContext";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,18 +35,36 @@ export default function Login() {
     mode: "onChange",
   });
 
+  //TODO -> Check if state contains error, and if does then display it
+  const { isFetching, dispatch } = useContext(AuthContext);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
   };
 
-  const handleLoginSubmit = (data) => {
-    //TODO -> Check user data - send Axios request to API
-    console.log("Submited data e-mail: " + data.email);
-    console.log("Submited data password: " + data.password);
+  const handleLoginSubmit = async (data, e) => {
+    e.preventDefault();
+
+    const email = data.email;
+    const password = data.password;
+
+    dispatch({ type: "LOGIN_START" });
+
+    await api
+      .post("/users/login/", {
+        email,
+        password,
+      })
+      .then(({ data }) => {
+        dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      })
+      .catch((error) => {
+        dispatch({ type: "LOGIN_FAILURE", payload: error });
+      });
   };
 
   return (
@@ -153,11 +174,17 @@ export default function Login() {
               control={<Checkbox name="checkedB" color="primary" />}
               label="Remember password"
             />
-            <input
+            <button
               type="submit"
-              value="Log In"
               className="loginWrapperRightContainerLoginButton"
-            />
+              disabled={isFetching}
+            >
+              {isFetching ? (
+                <CircularProgress style={{ color: "white" }} size="24px" />
+              ) : (
+                "Log In"
+              )}
+            </button>
             <span className="loginWrapperRightContainerForgotPassword">
               Forgot Password?
             </span>

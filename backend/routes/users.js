@@ -33,25 +33,23 @@ router.post("/register", async (req, res) => {
 
 //Login route
 router.post("/login", async (req, res) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
 
   try {
-    //Try to find User with specified username
-    const user = await User.findOne({ username });
+    //Try to find User with specified email
+    const user = await User.findOne({ email });
 
     //If it's Not Found send response with status code 404
     if (user == null) {
-      return res
-        .status(404)
-        .json("User with username '" + username + "' Not Found");
+      return res.status(404).json("User with email '" + email + "' Not Found");
     } else {
       //Check if password is correct - using bcrypt and it's method compare
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       //If password doesn't match send response with status 403
       if (!isPasswordValid) {
-        return res.status(403).json("Wrong password for user " + username);
+        return res.status(403).json("Wrong password for user " + email);
       } else {
         //If login was successful then create JWT
         return res.status(200).json(user);

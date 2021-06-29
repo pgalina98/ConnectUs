@@ -43,17 +43,18 @@ export default function Register() {
     setShowReenteredPassword(!showReenteredPassword);
   };
 
-  const handleMouseDownReenteredPassword = (event) => {
-    event.preventDefault();
+  const handleMouseDownReenteredPassword = (e) => {
+    e.preventDefault();
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
   };
 
-  const handleRegisterSubmit = (data) => {
+  const handleRegisterSubmit = (data, e) => {
     //TODO -> Register New user - send Axios request to API
-    console.log("Username submit:" + data.username);
+    e.preventDefault();
+    console.log("Submitam podatke...");
   };
 
   return (

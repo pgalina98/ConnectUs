@@ -80,6 +80,10 @@
   cursor: pointer;
 }
 
+.loginWrapperRightContainerLoginButton:disabled {
+  cursor: not-allowed;
+}
+
 .loginWrapperRightContainerForgotPassword {
   text-align: center;
   font-weight: 500;
