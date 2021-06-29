@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import "./register.css";
 import { Link } from "react-router-dom";
 import {
@@ -8,6 +9,7 @@ import {
   OutlinedInput,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   Visibility,
@@ -17,10 +19,14 @@ import {
 } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import api from "../../utils/api";
 
 export default function Register() {
+  const [isFetching, setIsFetching] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showReenteredPassword, setShowReenteredPassword] = useState(false);
+
+  const history = useHistory();
 
   const {
     register,
@@ -51,10 +57,33 @@ export default function Register() {
     e.preventDefault();
   };
 
-  const handleRegisterSubmit = (data, e) => {
-    //TODO -> Register New user - send Axios request to API
+  const handleRegisterSubmit = async (data, e) => {
     e.preventDefault();
-    console.log("Submitam podatke...");
+
+    const username = data.username;
+    const email = data.email;
+    const password = data.password;
+
+    const user = {
+      username,
+      email,
+      password,
+    };
+
+    setIsFetching(true);
+
+    await api
+      .post("/users/register", user)
+      .then(({ data }) => {
+        console.log("User is registered successfuly");
+        history.push("login");
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      })
+      .finally(() => {
+        setIsFetching(false);
+      });
   };
 
   return (
@@ -260,11 +289,17 @@ export default function Register() {
                 )
               )}
             </FormControl>
-            <input
+            <button
               type="submit"
-              value="Sign Up"
               className="registerWrapperRightContainerRegisterButton"
-            />
+              disabled={isFetching}
+            >
+              {isFetching ? (
+                <CircularProgress style={{ color: "white" }} size="24px" />
+              ) : (
+                "Sign Up"
+              )}
+            </button>
 
             <Link
               className="registerWrapperRightContainerLoginButton"

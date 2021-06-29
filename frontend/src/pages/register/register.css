@@ -76,6 +76,10 @@
   cursor: pointer;
 }
 
+.registerWrapperRightContainerRegisterButton:disabled {
+  cursor: not-allowed;
+}
+
 .registerWrapperRightContainerLoginButton {
   width: 50%;
   text-decoration: none;
