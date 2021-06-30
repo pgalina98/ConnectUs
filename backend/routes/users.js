@@ -164,6 +164,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//Get all Users that logged User is following
+router.get("/:id/followings", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    //If user is null then User with specified ID is Not Found
+    if (user == null) {
+      return res.status(404).json("User with ID " + userId + " Not Found!");
+    }
+
+    //Fetch all Users that User with specified ID is Following
+    const { following } = await User.findById(userId).populate("following");
+
+    return res.status(200).json(following);
+  } catch (error) {
+    console.log("LOG [/users/:id] - GET SINGLE: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
 //Follow User route
 router.put("/follow/:id", async (req, res) => {
   //Check if ID from request parameters doesn't match one from request body - User cannot follow yourself

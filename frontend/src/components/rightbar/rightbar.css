@@ -70,23 +70,3 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-
-.profileRightbarFriendItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-  cursor: pointer;
-}
-
-.profileRightbarFriendItemImage {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50px;
-}
-
-.profileRightbarFriendItemUsername {
-  font-weight: 400;
-  margin-top: 7px;
-}

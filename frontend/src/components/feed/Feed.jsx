@@ -50,7 +50,7 @@ export default function Feed({ userId }) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        <NewPost />
+        {userId === user._id && <NewPost />}
         {posts.map((post) => (
           <Post key={post._id} post={post} />
         ))}
