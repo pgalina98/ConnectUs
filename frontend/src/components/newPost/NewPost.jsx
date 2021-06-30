@@ -1,11 +1,57 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./newPost.css";
+import { CircularProgress } from "@material-ui/core";
 import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
 import { AuthContext } from "../../context/AuthorizationContext";
+import api from "../../utils/api";
 
 export default function NewPost() {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
   const { user } = useContext(AuthContext);
+
+  const [isPosting, setIsPosting] = useState(false);
+  const [postDescription, setPostDescription] = useState("");
+  const [file, setFile] = useState(null);
+
+  const handleNewPostSubmit = async (e) => {
+    e.preventDefault();
+
+    const newPost = {
+      userId: user._id,
+      description: postDescription,
+    };
+
+    setIsPosting(true);
+
+    if (file) {
+      const data = new FormData();
+      const filename = Date.now() + "_" + file.name;
+      data.append("filename", filename);
+      data.append("file", file);
+      newPost.image = "post_pictures/" + filename;
+
+      await api
+        .post("/posts/uploadFile", data)
+        .then(({ data }) => console.log(data))
+        .catch((error) => {
+          console.log("ERROR:" + error);
+        })
+        .finally(() => {
+          setIsPosting(false);
+        });
+    }
+
+    await api
+      .post("/posts", newPost)
+      .then(({ data }) => console.log(data))
+      .catch((error) => {
+        console.log("ERROR:" + error);
+      })
+      .finally(() => {
+        setIsPosting(false);
+        //window.location.reload();
+      });
+  };
 
   return (
     <div className="newPostContainer">
@@ -23,17 +69,25 @@ export default function NewPost() {
           />
           <input
             type="text"
-            placeholder="What's in Your mind Jane?"
+            placeholder={"What's in Your mind " + user.username + "?"}
             className="newPostInputText"
+            onChange={(event) => setPostDescription(event.target.value)}
           />
         </div>
         <hr className="newPostHR" />
-        <div className="newPostBottom">
+        <form className="newPostBottom" onSubmit={handleNewPostSubmit}>
           <div className="newPostOptions">
-            <div className="newPostOption">
+            <label htmlFor="file" className="newPostOption">
               <PermMedia htmlColor="tomato" className="newPostOptionIcon" />
               <span className="newPostOptionText">Photo or Video</span>
-            </div>
+              <input
+                id="file"
+                type="file"
+                style={{ display: "none" }}
+                accept=".png,.jpeg,.jpg"
+                onChange={(event) => setFile(event.target.files[0])}
+              />
+            </label>
             <div className="newPostOption">
               <Label htmlColor="blue" className="newPostOptionIcon" />
               <span className="newPostOptionText">Tag</span>
@@ -50,8 +104,18 @@ export default function NewPost() {
               <span className="newPostOptionText">Feelings</span>
             </div>
           </div>
-          <button className="newPostSubmitButton">Share</button>
-        </div>
+          <button
+            type="submit"
+            className="newPostSubmitButton"
+            disabled={isPosting}
+          >
+            {isPosting ? (
+              <CircularProgress style={{ color: "white" }} size="24px" />
+            ) : (
+              "Share"
+            )}
+          </button>
+        </form>
       </div>
     </div>
   );

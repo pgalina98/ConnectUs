@@ -1,6 +1,16 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/assets/post_pictures");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.filename);
+  },
+});
+const fileUpload = multer({ storage: storage });
 
 //Create Post route
 router.post("/", async (req, res) => {
@@ -226,6 +236,17 @@ router.put("/like/:id", async (req, res) => {
     }
   } catch (error) {
     console.log("LOG [/posts/like/:id]: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
+//Upload Post image/video Route
+router.post("/uploadFile", fileUpload.single("file"), async (req, res) => {
+  try {
+    return res.status(200).json("File has successfuly uploaded!");
+  } catch (error) {
+    console.log("LOG [/posts/uploadFile]: " + error);
     //Send response to client side
     return res.status(500).json(error.message);
   }
