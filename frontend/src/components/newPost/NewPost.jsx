@@ -49,7 +49,7 @@ export default function NewPost() {
       })
       .finally(() => {
         setIsPosting(false);
-        //window.location.reload();
+        window.location.reload();
       });
   };
 

@@ -5,21 +5,42 @@ import Post from "../post/Post";
 import "./feed.css";
 import { AuthContext } from "../../context/AuthorizationContext";
 
+const moment = require("moment");
+
 export default function Feed({ userId }) {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const getTimelinePosts = async () => {
-      //TODO -> User ID must be fetched dynamically from Context
       userId
         ? await api
             .get("/posts/profile/" + userId)
-            .then(({ data }) => setPosts(data))
+            .then(({ data }) => {
+              setPosts(
+                data.sort((a, b) =>
+                  moment(a.updatedAt).isBefore(b.updatedAt)
+                    ? 1
+                    : moment(a.updatedAt).isAfter(b.updatedAt)
+                    ? -1
+                    : 0
+                )
+              );
+            })
             .catch((error) => console.log("LOG [ERROR]: " + error))
         : await api
             .get("/posts/timeline/" + user._id)
-            .then(({ data }) => setPosts(data))
+            .then(({ data }) => {
+              setPosts(
+                data.sort((a, b) =>
+                  moment(a.updatedAt).isBefore(b.updatedAt)
+                    ? 1
+                    : moment(a.updatedAt).isAfter(b.updatedAt)
+                    ? -1
+                    : 0
+                )
+              );
+            })
             .catch((error) => console.log("LOG [ERROR]: " + error));
     };
 
