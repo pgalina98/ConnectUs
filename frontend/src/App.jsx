@@ -5,14 +5,14 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { AuthContext } from "./context/AuthorizationContext";
+import { UserContext } from "./context/UserContext";
 import Homepage from "./pages/homepage/Homepage";
 import Profile from "./pages/profile/Profile";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   return (
     <div>

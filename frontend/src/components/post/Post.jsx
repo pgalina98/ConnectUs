@@ -4,11 +4,11 @@ import { MoreVert } from "@material-ui/icons";
 import { format } from "timeago.js";
 import api from "../../utils/api";
 import "./post.css";
-import { AuthContext } from "../../context/AuthorizationContext";
+import { UserContext } from "../../context/UserContext";
 
 export default function Post({ post }) {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
-  const { user: loggedUser } = useContext(AuthContext);
+  const { user: loggedUser } = useContext(UserContext);
 
   const [user, setUser] = useState({});
   const [likes, setLikes] = useState(post.likes.length);

@@ -41,14 +41,23 @@
   list-style: none;
 }
 
+.profileRightbarFollowButton {
+  margin-top: 35px !important;
+  margin-bottom: 20px !important;
+  cursor: pointer !important;
+  margin-left: 20px !important;
+}
+
 .profileRightbarTitle {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 10px;
+  margin-left: 20px;
 }
 
 .profileRightbarUserInfo {
   margin-bottom: 30px;
+  margin-left: 30px;
 }
 
 .profileRightbarUserInfoItem {

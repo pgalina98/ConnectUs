@@ -3,12 +3,12 @@ import api from "../../utils/api";
 import NewPost from "../newPost/NewPost";
 import Post from "../post/Post";
 import "./feed.css";
-import { AuthContext } from "../../context/AuthorizationContext";
+import { UserContext } from "../../context/UserContext";
 
 const moment = require("moment");
 
 export default function Feed({ userId }) {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Feed({ userId }) {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {userId === user._id && <NewPost />}
+        {(!userId || userId === user._id) && <NewPost />}
         {posts.map((post) => (
           <Post key={post._id} post={post} />
         ))}

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./rightbar.css";
+import { Button } from "@material-ui/core";
+import { Add, Remove } from "@material-ui/icons";
 import OnlineUser from "../onlineUser/OnlineUser";
 import api from "../../utils/api";
-import { AuthContext } from "../../context/AuthorizationContext";
+import { UserContext } from "../../context/UserContext";
 import UserFollowing from "../userFollowing/UserFollowing";
 
 export default function Rightbar({ user }) {
-  const { user: loggedUser } = useContext(AuthContext);
+  const { user: loggedUser, dispatch } = useContext(UserContext);
 
   const [onlineFollowings, setOnlineFollowings] = useState([]);
   const [userFollowings, setUserFollowings] = useState([]);
@@ -59,8 +61,44 @@ export default function Rightbar({ user }) {
   };
 
   const ProfileRightbar = () => {
+    const [isFollowing, setIsFollowing] = useState(
+      loggedUser.following.includes(user?._id)
+    );
+
+    const handleFollowUnfollowButtonClick = async () => {
+      if (!isFollowing) {
+        await api
+          .put("/users/follow/" + user?._id, { userId: loggedUser._id })
+          .then(({ data }) => console.log(data))
+          .catch((error) => console.log(error));
+
+        dispatch({ type: "FOLLOW_USER", payload: user._id });
+      } else {
+        await api
+          .put("/users/unfollow/" + user._id, { userId: loggedUser._id })
+          .then(({ data }) => console.log(data))
+          .catch((error) => console.log(error));
+
+        dispatch({ type: "UNFOLLOW_USER", payload: user._id });
+      }
+
+      setIsFollowing(!isFollowing);
+    };
+
     return (
       <>
+        {user._id !== loggedUser._id && (
+          <Button
+            className="profileRightbarFollowButton"
+            variant="contained"
+            color="primary"
+            endIcon={isFollowing ? <Remove /> : <Add />}
+            onClick={handleFollowUnfollowButtonClick}
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Button>
+        )}
+
         <h4 className="profileRightbarTitle">User Information</h4>
         <div className="profileRightbarUserInfo">
           <div className="profileRightbarUserInfoItem">

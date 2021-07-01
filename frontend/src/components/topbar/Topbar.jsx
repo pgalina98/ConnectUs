@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthorizationContext";
+import { UserContext } from "../../context/UserContext";
 
 export default function Topbar() {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   return (
     <div className="topbarContainer">

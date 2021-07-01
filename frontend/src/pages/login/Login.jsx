@@ -21,7 +21,7 @@ import {
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import api from "../../utils/api";
-import { AuthContext } from "../../context/AuthorizationContext";
+import { UserContext } from "../../context/UserContext";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +36,7 @@ export default function Login() {
   });
 
   //TODO -> Check if state contains error, and if does then display it
-  const { isFetching, dispatch } = useContext(AuthContext);
+  const { isFetching, dispatch } = useContext(UserContext);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);

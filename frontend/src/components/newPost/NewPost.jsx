@@ -1,13 +1,19 @@
 import React, { useContext, useState } from "react";
 import "./newPost.css";
 import { CircularProgress } from "@material-ui/core";
-import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
-import { AuthContext } from "../../context/AuthorizationContext";
+import {
+  PermMedia,
+  Label,
+  Room,
+  EmojiEmotions,
+  Cancel,
+} from "@material-ui/icons";
+import { UserContext } from "../../context/UserContext";
 import api from "../../utils/api";
 
 export default function NewPost() {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
 
   const [isPosting, setIsPosting] = useState(false);
   const [postDescription, setPostDescription] = useState("");
@@ -75,6 +81,20 @@ export default function NewPost() {
           />
         </div>
         <hr className="newPostHR" />
+        {file && (
+          <div className="newPostSelectedImageContainer">
+            <img
+              src={URL.createObjectURL(file)}
+              alt=""
+              className="newPostSelectedImage"
+            />
+            <Cancel
+              htmlColor="red"
+              className="newPostSelectedImageCancel"
+              onClick={() => setFile(null)}
+            />
+          </div>
+        )}
         <form className="newPostBottom" onSubmit={handleNewPostSubmit}>
           <div className="newPostOptions">
             <label htmlFor="file" className="newPostOption">

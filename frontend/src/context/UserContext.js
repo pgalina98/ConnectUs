@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import AuthReducer from "./AuthorizationReducer";
+import UserReducer from "./UserReducer";
 
 const INITIAL_STATE = {
   user: null,
@@ -7,13 +7,13 @@ const INITIAL_STATE = {
   error: false,
 };
 
-export const AuthContext = createContext(INITIAL_STATE);
+export const UserContext = createContext(INITIAL_STATE);
 
-export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+export const UserContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(UserReducer, INITIAL_STATE);
 
   return (
-    <AuthContext.Provider
+    <UserContext.Provider
       value={{
         user: state.user,
         isFetching: state.isFetching,
@@ -22,6 +22,6 @@ export const AuthContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };
