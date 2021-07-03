@@ -1,6 +1,5 @@
 import React from "react";
 import "./onlineUser.css";
-import { Telegram } from "@material-ui/icons";
 
 export default function OnlineUser({ user }) {
   const ASSETS_FOLDER_URI = process.env.REACT_APP_ASSETS_URI;
@@ -16,7 +15,6 @@ export default function OnlineUser({ user }) {
         <span className="rightbarOnlineFriendsBadge"></span>
       </div>
       <span className="rightbarOnlineFriendsUsername">{user.username}</span>
-      <Telegram className="rightbarMessageOnlineFriend" />
     </li>
   );
 }
