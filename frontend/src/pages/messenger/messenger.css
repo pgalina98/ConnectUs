@@ -1,0 +1,71 @@
+.messengerContainer {
+  height: calc(100vh - 70px);
+  display: flex;
+}
+
+.messengerContainerChatMenu {
+  flex: 2.5;
+}
+
+.messengerContainerChatMenuSearchFriends {
+  width: 90%;
+  padding: 10px 0px;
+  border: none;
+  border-bottom: 1px solid gray;
+}
+
+.messengerContainerChatMessages {
+  flex: 7;
+}
+
+.messengerContainerChatMessagesWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.messengerContainerChatMessagesTop {
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 15px;
+}
+
+.messengerContainerChatMessagesBottom {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.messengerContainerChatMessagesInput {
+  width: 80%;
+  height: 28px;
+  padding: 10px;
+  border-radius: 32px;
+  border: 1.5px solid black;
+}
+
+.messengerContainerChatMessagesSendMessageButton {
+  background-color: #1877f2 !important;
+  cursor: pointer;
+}
+
+.messengerContainerChatMessagesInput:focus {
+  outline: none;
+}
+
+.messengerContainerChatOnlineFriends {
+  flex: 2.5;
+  overflow-y: scroll;
+}
+
+.messengerContainerChatMenuWrapper,
+.messengerContainerChatMessagesWrapper,
+.messengerContainerChatOnlineFriendsWrapper {
+  padding: 10px;
+  height: 100%;
+}
+
+.messengerContainerChatOnlineFriendsWrapper {
+  padding-top: 24px;
+  padding-left: 20px;
+}

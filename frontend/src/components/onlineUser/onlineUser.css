@@ -31,10 +31,3 @@
   font-size: 16px;
   font-weight: 500;
 }
-
-.rightbarMessageOnlineFriend {
-  font-size: 28px !important;
-  cursor: pointer;
-  position: absolute;
-  margin-left: 200px;
-}
