@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require("cors");
+const path = require("path");
 
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
@@ -21,6 +23,7 @@ mongoose.connect(
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   },
   () => {
     console.log("Successfully connected to Mongo Database!");
@@ -28,9 +31,11 @@ mongoose.connect(
 );
 
 //Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 //Routes
 app.use("/api/users", userRouter);

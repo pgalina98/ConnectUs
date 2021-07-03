@@ -1,0 +1,92 @@
+export const Users = [
+  {
+    id: 1,
+    profilePicture: "profile_pictures/profile_picture_2.jpg",
+    username: "Jane Doe",
+  },
+  {
+    id: 2,
+    profilePicture: "profile_pictures/profile_picture_3.jpg",
+    username: "Jasmine Doe",
+  },
+  {
+    id: 3,
+    profilePicture: "profile_pictures/profile_picture_4.png",
+    username: "Ana-Marie Doe",
+  },
+  {
+    id: 4,
+    profilePicture: "profile_pictures/profile_picture_5.jpg",
+    username: "John Doe",
+  },
+];
+
+export const Posts = [
+  {
+    id: 1,
+    desc: "Love For All, Hatred For None.",
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "5 mins ago",
+    userId: 1,
+    like: 32,
+    comment: 9,
+  },
+  {
+    id: 2,
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "15 mins ago",
+    userId: 2,
+    like: 2,
+    comment: 1,
+  },
+  {
+    id: 3,
+    desc: "Every moment is a fresh beginning.",
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "1 hour ago",
+    userId: 3,
+    like: 61,
+    comment: 2,
+  },
+  {
+    id: 4,
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "4 hours ago",
+    userId: 4,
+    like: 7,
+    comment: 3,
+  },
+  {
+    id: 5,
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "5 hours ago",
+    userId: 4,
+    like: 23,
+    comment: 5,
+  },
+  {
+    id: 6,
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "1 day ago",
+    userId: 3,
+    like: 44,
+    comment: 6,
+  },
+  {
+    id: 7,
+    desc: "Never regret anything that made you smile.",
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "2 days ago",
+    userId: 2,
+    like: 52,
+    comment: 3,
+  },
+  {
+    id: 8,
+    photo: "post_pictures/post_picture_1.jpg",
+    date: "3 days ago",
+    userId: 1,
+    like: 15,
+    comment: 1,
+  },
+];

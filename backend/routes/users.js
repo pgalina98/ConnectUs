@@ -33,25 +33,23 @@ router.post("/register", async (req, res) => {
 
 //Login route
 router.post("/login", async (req, res) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
 
   try {
-    //Try to find User with specified username
-    const user = await User.findOne({ username });
+    //Try to find User with specified email
+    const user = await User.findOne({ email });
 
     //If it's Not Found send response with status code 404
     if (user == null) {
-      return res
-        .status(404)
-        .json("User with username '" + username + "' Not Found");
+      return res.status(404).json("User with email '" + email + "' Not Found");
     } else {
       //Check if password is correct - using bcrypt and it's method compare
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       //If password doesn't match send response with status 403
       if (!isPasswordValid) {
-        return res.status(403).json("Wrong password for user " + username);
+        return res.status(403).json("Wrong password for user " + email);
       } else {
         //If login was successful then create JWT
         return res.status(200).json(user);
@@ -159,6 +157,29 @@ router.get("/:id", async (req, res) => {
     const { updatedAt, createdAt, password, __v, ...userData } = user._doc;
 
     return res.status(200).json(userData);
+  } catch (error) {
+    console.log("LOG [/users/:id] - GET SINGLE: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
+//Get all Users that logged User is following
+router.get("/:id/followings", async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    //If user is null then User with specified ID is Not Found
+    if (user == null) {
+      return res.status(404).json("User with ID " + userId + " Not Found!");
+    }
+
+    //Fetch all Users that User with specified ID is Following
+    const { following } = await User.findById(userId).populate("following");
+
+    return res.status(200).json(following);
   } catch (error) {
     console.log("LOG [/users/:id] - GET SINGLE: " + error);
     //Send response to client side

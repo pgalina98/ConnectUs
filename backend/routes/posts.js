@@ -1,6 +1,16 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/assets/post_pictures");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.filename);
+  },
+});
+const fileUpload = multer({ storage: storage });
 
 //Create Post route
 router.post("/", async (req, res) => {
@@ -20,9 +30,9 @@ router.post("/", async (req, res) => {
 });
 
 //Get all Post route - all posts from Users that logged User is following
-router.get("/timeline", async (req, res) => {
+router.get("/timeline/:userId", async (req, res) => {
   const timelinePosts = [];
-  const userId = req.body.userId;
+  const userId = req.params.userId;
 
   try {
     //Try to find User with specified ID
@@ -44,6 +54,30 @@ router.get("/timeline", async (req, res) => {
     timelinePosts.push(...followedUsersPosts);
 
     return res.status(200).json(timelinePosts);
+  } catch (error) {
+    console.log("LOG [/posts/following]: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
+//Get all User Post route
+router.get("/profile/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    //Try to find User with specified ID
+    const user = await User.findById(userId);
+
+    //If user is null then User with specified ID is Not Found
+    if (user == null) {
+      return res.status(404).json("User with ID " + userId + " Not Found!");
+    }
+
+    //Get all posts from logged User
+    const userPosts = await Post.find({ userId });
+
+    return res.status(200).json(userPosts);
   } catch (error) {
     console.log("LOG [/posts/following]: " + error);
     //Send response to client side
@@ -202,6 +236,17 @@ router.put("/like/:id", async (req, res) => {
     }
   } catch (error) {
     console.log("LOG [/posts/like/:id]: " + error);
+    //Send response to client side
+    return res.status(500).json(error.message);
+  }
+});
+
+//Upload Post image/video Route
+router.post("/uploadFile", fileUpload.single("file"), async (req, res) => {
+  try {
+    return res.status(200).json("File has successfuly uploaded!");
+  } catch (error) {
+    console.log("LOG [/posts/uploadFile]: " + error);
     //Send response to client side
     return res.status(500).json(error.message);
   }
