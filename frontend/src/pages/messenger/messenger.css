@@ -46,6 +46,7 @@
 
 .messengerContainerChatMessagesSendMessageButton {
   background-color: #1877f2 !important;
+  margin-right: 15px !important;
   cursor: pointer;
 }
 
