@@ -8,6 +8,8 @@ const cors = require("cors");
 
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
+const conversationRouter = require("./routes/conversations");
+const messageRouter = require("./routes/messages");
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.use(morgan("common"));
 //Routes
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/conversations", conversationRouter);
+app.use("/api/messages", messageRouter);
 
 //Server configuration
 app.listen(PORT, () => {
