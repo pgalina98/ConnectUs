@@ -8,7 +8,12 @@ export default function OnlineUser({ user }) {
     <li className="rightbarOnlineFriendsListItem">
       <div className="rightbarOnlineFriendsProfileImageContainer">
         <img
-          src={ASSETS_FOLDER_URI + user.profilePicture}
+          src={
+            user?.profilePicture
+              ? ASSETS_FOLDER_URI + user.profilePicture
+              : ASSETS_FOLDER_URI +
+                "profile_pictures/profile_picture_default.jpg"
+          }
           alt=""
           className="rightbarOnlineFriendsProfileImage"
         />

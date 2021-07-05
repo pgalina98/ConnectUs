@@ -7,17 +7,47 @@ import { Button } from "@material-ui/core";
 import SendRoundedIcon from "@material-ui/icons/SendRounded";
 import { UserContext } from "../../context/UserContext";
 import api from "../../utils/api";
+import { io } from "socket.io-client";
 import "./messenger.css";
 
 export default function Messenger() {
   const { user } = useContext(UserContext);
+  const socket = useRef();
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedConversationMessages, setSelectedConversationMessages] =
     useState([]);
+  const [webSocketMessage, setWebSocketMessage] = useState(null);
   const [newMessageText, setNewMessageText] = useState("");
 
   const scrollRef = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8081");
+    socket.current.on("sendMessage", (message) => {
+      setWebSocketMessage({
+        senderId: message.senderId,
+        messageText: message.messageText,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    webSocketMessage &&
+      selectedConversation?.members.includes(webSocketMessage.senderId) &&
+      setSelectedConversationMessages((messages) => [
+        ...messages,
+        webSocketMessage,
+      ]);
+  }, [selectedConversation?.members, webSocketMessage]);
+
+  useEffect(() => {
+    socket.current.emit("getUserData", user);
+    socket.current.on("sendOnlineUsers", (onlineUsers) => {
+      console.log("Online Users:", onlineUsers);
+    });
+  }, [user]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -40,7 +70,7 @@ export default function Messenger() {
         .catch((error) => console.log(error));
     };
 
-    getChatMessages();
+    selectedConversation && getChatMessages();
   }, [selectedConversation]);
 
   useEffect(() => {
@@ -68,6 +98,16 @@ export default function Messenger() {
       .catch((error) => {
         console.log(error);
       });
+
+    const receiverId = selectedConversation.members.find(
+      (member) => member !== user._id
+    );
+
+    socket.current.emit("getMessage", {
+      senderId: user._id,
+      receiverId,
+      messageText: newMessageText,
+    });
   };
 
   return (
@@ -99,6 +139,7 @@ export default function Messenger() {
                   {selectedConversationMessages.map((message) => (
                     <div ref={scrollRef}>
                       <Message
+                        key={message._id}
                         message={message}
                         myMessage={message.senderId === user._id}
                         userId={
