@@ -25,6 +25,7 @@
 .messengerContainerChatMessagesWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .messengerContainerChatMessagesTop {
@@ -56,6 +57,12 @@
 
 .messengerContainerChatMessagesInput:focus {
   outline: none;
+}
+
+.messengerContainerChatMessagesConversationNotSelectedMessage {
+  align-self: center;
+  font-size: 36px;
+  color: rgb(161, 161, 161);
 }
 
 .messengerContainerChatOnlineFriends {

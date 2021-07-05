@@ -29,14 +29,14 @@ export default function Conversation({ conversation }) {
     <div className="conversation">
       <img
         src={
-          userReceiver.profilePicture
+          userReceiver?.profilePicture
             ? ASSETS_FOLDER_URI + userReceiver.profilePicture
             : ASSETS_FOLDER_URI + "profile_pictures/profile_picture_default.jpg"
         }
         alt=""
         className="conversationBadge"
       />
-      <span className="conversationName">{userReceiver.username}</span>
+      <span className="conversationName">{userReceiver?.username}</span>
     </div>
   );
 }

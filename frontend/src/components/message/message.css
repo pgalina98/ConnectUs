@@ -9,12 +9,20 @@
   align-items: center;
 }
 
+.messageTop.own {
+  flex-direction: row-reverse;
+}
+
 .messageTopBadge {
   width: 35px;
   height: 35px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 15px;
+}
+
+.messageTopBadge.own {
+  margin-left: 15px;
 }
 
 .messageTopText {
@@ -25,16 +33,6 @@
   max-width: 330px;
 }
 
-.messageBottom {
-  font-size: 13px;
-  margin-top: 10px;
-  margin-left: 60px;
-}
-
-.message.own .messageBottom {
-  margin-right: 10px;
-}
-
 .message.own {
   align-items: flex-end;
 }
@@ -42,4 +40,14 @@
 .message.own .messageTopText {
   background-color: #f5f4f4;
   color: black;
+}
+
+.messageBottom {
+  font-size: 13px;
+  margin-top: 10px;
+  margin-left: 60px;
+}
+
+.message.own .messageBottom {
+  margin-right: 75px;
 }
