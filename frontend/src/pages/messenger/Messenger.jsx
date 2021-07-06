@@ -19,6 +19,9 @@ export default function Messenger() {
     useState([]);
   const [webSocketMessage, setWebSocketMessage] = useState(null);
   const [newMessageText, setNewMessageText] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [userFollowings, setUserFollowings] = useState([]);
+  const [onlineUserFollowings, setOnlineUserFollowings] = useState([]);
 
   const scrollRef = useRef();
 
@@ -45,9 +48,28 @@ export default function Messenger() {
   useEffect(() => {
     socket.current.emit("getUserData", user);
     socket.current.on("sendOnlineUsers", (onlineUsers) => {
-      console.log("Online Users:", onlineUsers);
+      setOnlineUsers(onlineUsers);
     });
+
+    const getUserFollowings = async () => {
+      await api
+        .get("/users/" + user._id + "/followings")
+        .then(({ data }) => {
+          setUserFollowings(data);
+        })
+        .catch((error) => console.log(error));
+    };
+
+    getUserFollowings();
   }, [user]);
+
+  useEffect(() => {
+    setOnlineUserFollowings(
+      userFollowings.filter((user) =>
+        onlineUsers.find((onlineUser) => onlineUser.userId === user._id)
+      )
+    );
+  }, [onlineUsers, userFollowings]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -180,42 +202,19 @@ export default function Messenger() {
         </div>
         <div className="messengerContainerChatOnlineFriends">
           <div className="messengerContainerChatOnlineFriendsWrapper">
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
-            <OnlineUser user={user} />
+            <p className="messengerContainerChatOnlineFriendsNumberOfOnlineFriends">
+              Online Friends: <b>{onlineUserFollowings.length}</b>
+            </p>
+            {onlineUserFollowings.length > 0 &&
+              onlineUserFollowings.map((user) => (
+                <div
+                  onClick={() =>
+                    console.log("USER ID THAT I WANT TO CHAT: ", user._id)
+                  }
+                >
+                  <OnlineUser key={user._id} user={user} />
+                </div>
+              ))}
           </div>
         </div>
       </div>

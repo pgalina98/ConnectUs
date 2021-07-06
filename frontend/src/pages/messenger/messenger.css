@@ -1,5 +1,5 @@
 .messengerContainer {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 85px);
   display: flex;
 }
 
@@ -67,7 +67,6 @@
 
 .messengerContainerChatOnlineFriends {
   flex: 2.5;
-  overflow-y: scroll;
 }
 
 .messengerContainerChatMenuWrapper,
@@ -80,4 +79,15 @@
 .messengerContainerChatOnlineFriendsWrapper {
   padding-top: 24px;
   padding-left: 20px;
+
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.messengerContainerChatOnlineFriendsNumberOfOnlineFriends {
+  font-size: 19px;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
 }
